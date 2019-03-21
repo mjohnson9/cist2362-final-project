@@ -15,6 +15,28 @@
    "-glldb",
    "-O0",
    "-c",
+   "shoutout/common.cc",
+   "-o",
+   "build/common.o"
+  ],
+  "file": "shoutout/common.cc"
+ },
+ {
+  "directory": "/Users/michael/Projects/ShoutOut.com",
+  "arguments": [
+   "c++",
+   "-std=c++11",
+   "-Wall",
+   "-Wextra",
+   "-Wc++11-compat",
+   "-Werror",
+   "-pedantic-errors",
+   "-ffast-math",
+   "-ftrapv",
+   "-I.",
+   "-glldb",
+   "-O0",
+   "-c",
    "shoutout/main.cc",
    "-o",
    "build/main.o"
@@ -42,5 +64,27 @@
    "build/screen.o"
   ],
   "file": "shoutout/screen.cc"
+ },
+ {
+  "directory": "/Users/michael/Projects/ShoutOut.com",
+  "arguments": [
+   "c++",
+   "-std=c++11",
+   "-Wall",
+   "-Wextra",
+   "-Wc++11-compat",
+   "-Werror",
+   "-pedantic-errors",
+   "-ffast-math",
+   "-ftrapv",
+   "-I.",
+   "-glldb",
+   "-O0",
+   "-c",
+   "shoutout/views/mainmenu.cc",
+   "-o",
+   "build/views/mainmenu.o"
+  ],
+  "file": "shoutout/views/mainmenu.cc"
  }
 ]

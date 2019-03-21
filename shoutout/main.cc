@@ -1,7 +1,5 @@
 // Copyright 2019 Michael Johnson
 
-#include <iostream>
-
 #include "shoutout/screen.h"
 #include "shoutout/views/mainmenu.h"
 
