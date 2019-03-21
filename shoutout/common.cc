@@ -36,62 +36,6 @@ std::string RequestInput<std::string>(
   return response;
 }
 
-// ValidateContinueResponse is a validation function for RequestInput. It
-// validates that a response to the continue question can be used.
-bool ValidateContinueResponse(const std::string& response);
-
-bool RequestContinue() {
-  return RequestContinue("Would you like to run the program again? [y/N] ");
-}
-
-bool RequestContinue(const std::string& prompt) {
-  while (true) {
-    auto response = RequestInput<std::string>(prompt, ValidateContinueResponse);
-    if (response.empty()) {
-      return false;  // The default option is to not continue
-    }
-
-    // Lowercase the response to make it easier to compare
-    std::transform(response.begin(), response.end(), response.begin(),
-                   ::tolower);
-    if (response == "y" || response == "yes") {
-      return true;
-    }
-    if (response == "n" || response == "no") {
-      return false;
-    }
-
-    // We should never reach this point
-    throw std::invalid_argument("response");
-  }
-}
-
-bool ValidateContinueResponse(const std::string& response) {
-  if (response.empty()) {
-    // Shortcut; we allow empty responses
-    return true;
-  }
-
-  std::string modified_response = response;  // Copy the response string
-
-  // Lowercase the response to make it easier to compare
-  std::transform(modified_response.begin(), modified_response.end(),
-                 modified_response.begin(), ::tolower);
-
-  const bool is_valid =
-      (modified_response == "y" || modified_response == "yes" ||
-       modified_response == "n" || modified_response == "no");
-  if (!is_valid) {
-    std::cout
-        << response
-        << " is an invalid response. Available responses are yes, y, no, or n."
-        << std::endl
-        << std::endl;
-  }
-
-  return is_valid;
-}
-
 void ClearInputWhitespace() {
   char c = static_cast<char>(std::cin.peek());
   if (std::isspace(c) == 0) {
