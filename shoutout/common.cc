@@ -9,10 +9,10 @@
 #include <limits>
 #include <sstream>
 #include <string>
+#include <vector>
 
 namespace mjohnson {
 namespace common {
-
 // This is a specialization for string. It reads entire lines instead of a
 // single word.
 template <>

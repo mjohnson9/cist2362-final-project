@@ -23,9 +23,9 @@ void Screen::Clear() {
 
 Screen::Screen() { this->view_ = nullptr; }
 
-View* Screen::view() { return this->view_; }
+View* Screen::CurrentView() { return this->view_; }
 
-void Screen::set_view(View* view) {
+void Screen::SetView(View* view) {
   // Free the memory held by the previous view
   // We don't check if it's null because deleting nullptr has no effect.
   delete this->view_;

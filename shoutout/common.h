@@ -2,13 +2,25 @@
 
 #pragma once
 
+#include <algorithm>
 #include <chrono>  // NOLINT(build/c++11)
 #include <functional>
 #include <iostream>
 #include <string>
+#include <vector>
 
 namespace mjohnson {
 namespace common {
+const std::vector<char> kFilesystemForbiddenCharacters =
+    []() -> std::vector<char> {
+  std::string temporaryForbiddenCharacters = "/?<>\\:*|\"^";
+  std::sort(temporaryForbiddenCharacters.begin(),
+            temporaryForbiddenCharacters.end());
+  std::vector<char> forbiddenCharactersVector(
+      temporaryForbiddenCharacters.begin(), temporaryForbiddenCharacters.end());
+  return forbiddenCharactersVector;
+}();
+
 /**
  * Clears the trailing whitespace after a read from cin.
  */

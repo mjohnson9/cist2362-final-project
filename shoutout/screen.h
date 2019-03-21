@@ -35,8 +35,8 @@ class Screen {
    */
   void Clear();
 
-  View* view();
-  void set_view(View* view);
+  View* CurrentView();
+  void SetView(View* view);
 };
 
 }  // namespace shoutout
