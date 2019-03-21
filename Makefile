@@ -29,7 +29,7 @@ TIDYFLAGS := $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH)
 TIDYFLAGS := $(TIDYFLAGS:%=-extra-arg="%")
 
 
-.PHONY: all test tidy clean
+.PHONY: all tidy lint test docs clean
 
 all: $(BUILD_DIR)/ShoutOut
 
@@ -59,6 +59,9 @@ lint: $(LINTS)
 
 test: $(TESTS_RUN)
 	@echo "Tests passed"
+
+docs:
+	doxygen
 
 clean:
 	$(RM) -r $(BUILD_DIR)

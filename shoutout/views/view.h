@@ -5,7 +5,7 @@
 namespace mjohnson {
 namespace shoutout {
 /**
- * View is an abstract class defining functions common to all views.
+ * Abstract class defining functions common to all views.
  */
 class View {
  public:
