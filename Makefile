@@ -4,9 +4,10 @@ BASE_DIR := $(BASE_DIR:%/=%)
 SOURCE_DIR := $(BASE_DIR)/shoutout
 BUILD_DIR := $(BASE_DIR)/build
 
-SRCS := $(shell find "$(SOURCE_DIR)" -iname '*.cc' | sort)
+SRCS := $(shell find "$(SOURCE_DIR)" \( -iname '*.cc' -and -not -iname '*_test.cc' \) | sort)
 OBJS := $(SRCS:$(SOURCE_DIR)/%.cc=$(BUILD_DIR)/%.o)
-TESTS := $(BINS:%=%.test)
+TESTS := $(shell find "$(SOURCE_DIR)" -iname '*_test.cc' | sort)
+TESTS_RUN := $(TESTS:%=%.run)
 TIDYS := $(SRCS:%=%.tidy)
 LINTS := $(SRCS:%=%.lint)
 
@@ -35,9 +36,16 @@ all: $(BUILD_DIR)/ShoutOut
 $(BUILD_DIR)/ShoutOut: $(OBJS)
 	$(LINK.cpp) $^ -o "$@"
 
+$(BUILD_DIR)/%_test: $(SOURCE_DIR)/%_test.cc
+	@$(MKDIR_P) "$(dir $@)"
+	$(LINK.cpp) "$<" -o "$@"
+
 $(BUILD_DIR)/%.o: $(SOURCE_DIR)/%.cc $(wildcard $(SOURCE_DIR)/%.h)
 	@$(MKDIR_P) "$(dir $@)"
 	$(COMPILE.cpp) "$<" -o "$@"
+
+$(SOURCE_DIR)/%_test.run: $(BUILD_DIR)/%_test
+	"$@"
 
 $(SOURCE_DIR)/%.tidy: $(SOURCE_DIR)/%
 	"$(CLANG_TIDY)" -header-filter="$(SOURCE_DIR)" "$(@:%.tidy=%)"
@@ -49,7 +57,7 @@ tidy: $(TIDYS) $(SOURCE_DIR)/common.cpp.tidy
 
 lint: $(LINTS) $(SOURCE_DIR)/common.cpp.lint
 
-test: $(TESTS)
+test: $(TESTS_RUN)
 	@echo "Tests passed"
 
 clean:

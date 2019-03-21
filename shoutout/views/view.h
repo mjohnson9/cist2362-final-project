@@ -4,10 +4,11 @@
 
 namespace mjohnson {
 namespace shoutout {
-namespace views {
+// View is an abstract class defining functions common to any views.
 class View {
-  virtual void display(Screen* screen) = 0;
-}
-}  // namespace views
+ public:
+  virtual void display() = 0;
+  virtual ~View() {}
+};
 }  // namespace shoutout
 }  // namespace mjohnson
