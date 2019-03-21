@@ -15,9 +15,9 @@ class MainMenuView : public View {
  public:
   MainMenuView();
   explicit MainMenuView(const std::string& error_message);
-  virtual ~MainMenuView() {}
+  ~MainMenuView() override = default;
 
-  virtual void display();
+  void display() override;
 };
 }  // namespace shoutout
 }  // namespace mjohnson

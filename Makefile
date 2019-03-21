@@ -53,9 +53,9 @@ $(SOURCE_DIR)/%.tidy: $(SOURCE_DIR)/%
 $(SOURCE_DIR)/%.lint: $(SOURCE_DIR)/%
 	"$(CPPLINT)" --filter=-readability/nolint "$(@:%.lint=%)"
 
-tidy: $(TIDYS) $(SOURCE_DIR)/common.cpp.tidy
+tidy: $(TIDYS)
 
-lint: $(LINTS) $(SOURCE_DIR)/common.cpp.lint
+lint: $(LINTS)
 
 test: $(TESTS_RUN)
 	@echo "Tests passed"

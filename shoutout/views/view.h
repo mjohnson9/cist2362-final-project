@@ -4,11 +4,18 @@
 
 namespace mjohnson {
 namespace shoutout {
-// View is an abstract class defining functions common to any views.
+/**
+ * View is an abstract class defining functions common to all views.
+ */
 class View {
  public:
+  /**
+   * Displays the view and handles input relevant to the view. To switch to a
+   * new view, this View would call Screen::Get()->set_view(). If display
+   * returns, the program ends.
+   */
   virtual void display() = 0;
-  virtual ~View() {}
+  virtual ~View() = default;
 };
 }  // namespace shoutout
 }  // namespace mjohnson
