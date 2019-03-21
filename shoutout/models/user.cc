@@ -12,11 +12,12 @@ std::string User::CreateUserId(const std::string& username) {
   return username_copy;
 }
 
-User::User(std::string username) : username_(username), password_("") {
+User::User(std::string username)
+    : username_(std::move(username)), password_("") {
   this->Initialize();
 }
 User::User(std::string username, std::string password)
-    : username_(username), password_(password) {
+    : username_(std::move(username)), password_(std::move(password)) {
   this->Initialize();
 }
 

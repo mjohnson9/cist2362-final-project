@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
     shoutout->LoadFromDisk();
 
     mjohnson::shoutout::Screen* screen = mjohnson::shoutout::Screen::Get();
-    screen->SetView(new mjohnson::shoutout::MainMenuView());
+    screen->Run(new mjohnson::shoutout::MainMenuView());
   } catch (const std::exception& ex) {
     std::cerr << "Program terminated with an exception:" << std::endl
               << ex.what() << std::endl;

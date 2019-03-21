@@ -2,8 +2,7 @@
 
 #pragma once
 
-#include <string>
-
+#include "shoutout/models/user.h"
 #include "shoutout/views/view.h"
 
 namespace mjohnson {
@@ -12,21 +11,15 @@ namespace shoutout {
  * Provides the main menu. The main menu allows a user to register or login. It
  * can also display an error message from another view.
  */
-class MainMenuView : public View {
+class HomeView : public View {
  private:
   /**
    * The error message to be displayed with this main menu view.
    */
-  std::string message_;
+  User* user_;
 
  public:
-  MainMenuView();
-  /**
-   * Constructs a MainMenuView with a specified message.
-   * @param  message The message to be displayed.
-   */
-  explicit MainMenuView(std::string message);
-  ~MainMenuView() override = default;
+  explicit HomeView(User* user) : user_(user) {}
 
   View* Display() override;
 };

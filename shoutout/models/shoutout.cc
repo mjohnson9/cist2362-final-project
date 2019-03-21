@@ -3,9 +3,10 @@
 #include "shoutout/models/shoutout.h"
 
 #include <dirent.h>
-#include <errno.h>
+#include <cerrno>
 #include <fstream>
 #include <iostream>
+#include <utility>
 
 #include "shoutout/exceptions.h"
 
@@ -13,8 +14,8 @@ namespace mjohnson {
 namespace shoutout {
 ShoutOut* ShoutOut::global_shoutout_ = nullptr;
 
-ShoutOut::ShoutOut(const std::string& data_directory)
-    : data_directory_(data_directory) {}
+ShoutOut::ShoutOut(std::string data_directory)
+    : data_directory_(std::move(data_directory)) {}
 
 ShoutOut* ShoutOut::Get() { return ShoutOut::global_shoutout_; }
 
@@ -31,7 +32,7 @@ void ShoutOut::LoadFromDisk() {
   this->users_ = new std::vector<User*>();
 
   DIR* outer_dir = opendir(this->data_directory_.c_str());
-  if (outer_dir == NULL) {
+  if (outer_dir == nullptr) {
     if (errno == ENOENT) {  // The directory doesn't exist
       return;
     }
@@ -135,6 +136,8 @@ User* ShoutOut::GetUser(const std::string& user_id) {
 
   return nullptr;  // The user doesn't exist
 }
+
+void ShoutOut::AddUser(User* user) { this->users_->push_back(user); }
 
 std::ifstream ShoutOut::OpenUserFileRead(const std::string& user_id,
                                          const std::string& filename) {

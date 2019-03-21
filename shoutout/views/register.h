@@ -12,10 +12,14 @@ namespace shoutout {
  * Provides a screen for user registration. This allows a user to
  */
 class RegisterView : public View {
- public:
-  RegisterView();
+ private:
+  std::string username_;
+  bool password_mismatch_ = false;
 
-  void display() override;
+ public:
+  RegisterView() : username_("") {}
+
+  View* Display() override;
 };
 }  // namespace shoutout
 }  // namespace mjohnson

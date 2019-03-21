@@ -25,13 +25,16 @@ Screen::Screen() { this->view_ = nullptr; }
 
 View* Screen::CurrentView() { return this->view_; }
 
-void Screen::SetView(View* view) {
-  // Free the memory held by the previous view
-  // We don't check if it's null because deleting nullptr has no effect.
-  delete this->view_;
-
-  this->view_ = view;
-  this->view_->display();
+void Screen::Run(View* initial_view) {
+  this->view_ = initial_view;
+  while (this->view_ != nullptr) {
+    View* new_view = this->view_->Display();
+    if (new_view != this->view_) {
+      // Only free the view if it didn't return itself
+      delete this->view_;
+    }
+    this->view_ = new_view;
+  }
 }
 }  // namespace shoutout
 }  // namespace mjohnson

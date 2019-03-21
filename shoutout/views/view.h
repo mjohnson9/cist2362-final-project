@@ -14,7 +14,7 @@ class View {
    * new view, this View would call Screen::Get()->set_view(). If display
    * returns, the program ends.
    */
-  virtual void display() = 0;
+  virtual View* Display() = 0;
   virtual ~View() = default;
 };
 }  // namespace shoutout

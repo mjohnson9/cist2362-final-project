@@ -6,6 +6,8 @@
 #include <utility>
 #include <vector>
 
+#include "shoutout/models/shout.h"
+
 namespace mjohnson {
 namespace shoutout {
 /**
@@ -18,6 +20,8 @@ class User {
 
   std::vector<User*>* following_;
   std::vector<User*>* followers_;
+
+  std::vector<Shout*>* shouts_;
 
   void Initialize();
 
@@ -40,11 +44,14 @@ class User {
    */
   std::string UserId() const { return User::CreateUserId(this->username_); }
 
-  std::vector<User*>* Following() { return this->following_; }
+  std::vector<User*>* Following() const { return this->following_; }
   void AddFollowing(User* user);
 
-  std::vector<User*>* Followers() { return this->followers_; }
+  std::vector<User*>* Followers() const { return this->followers_; }
   void AddFollower(User* user);
+
+  std::vector<Shout*>* Shouts() const { return this->shouts_; }
+  void AddShout(Shout* shout) { this->shouts_->push_back(shout); }
 };
 }  // namespace shoutout
 }  // namespace mjohnson

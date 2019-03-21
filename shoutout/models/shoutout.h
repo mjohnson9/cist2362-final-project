@@ -45,7 +45,7 @@ class ShoutOut {
    */
   static ShoutOut* CreateGlobalShoutOut(const std::string& data_directory);
 
-  explicit ShoutOut(const std::string& data_directory);
+  explicit ShoutOut(std::string data_directory);
 
   /**
    * Retrieves the data directory.

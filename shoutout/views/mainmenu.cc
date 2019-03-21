@@ -8,27 +8,30 @@
 
 #include "shoutout/common.h"
 #include "shoutout/screen.h"
+#include "shoutout/views/register.h"
 
 namespace mjohnson {
 namespace shoutout {
-MainMenuView::MainMenuView() : error_message_("") {}
+MainMenuView::MainMenuView() : message_("") {}
 
-MainMenuView::MainMenuView(std::string error_message)
-    : error_message_(std::move(error_message)) {}
+MainMenuView::MainMenuView(std::string message)
+    : message_(std::move(message)) {}
 
-void MainMenuView::display() {
+View* MainMenuView::Display() {
+  Screen* screen = Screen::Get();
+
   std::string chosen_option;
   while (true) {  // Make an infinite loop; we'll break out when
                   // we're ready to continue
-    Screen* screen = Screen::Get();
     screen->Clear();
     std::cout << "========== SHOUTOUT.COM ==========" << std::endl;
-    if (!this->error_message_.empty()) {
-      std::cout << this->error_message_ << std::endl << std::endl;
+    if (!this->message_.empty()) {
+      std::cout << this->message_ << std::endl << std::endl;
     }
     std::cout << "Please choose an option:" << std::endl
               << "[l] Login" << std::endl
               << "[r] Register" << std::endl
+              << "[q] Quit" << std::endl
               << std::endl;
 
     chosen_option = mjohnson::common::RequestInput<std::string>("", nullptr);
@@ -38,15 +41,35 @@ void MainMenuView::display() {
     mjohnson::common::LowerString(
         &chosen_option);  // Convert the string to lowercase for easy comparison
 
-    if (chosen_option == "l" || chosen_option == "r") {
-      break;
+    if (chosen_option == "l") {
+      // TODO(michael): Login view
+      std::cout << "TODO(Login view)" << std::endl;
+      return nullptr;
+    }
+    if (chosen_option == "r") {
+      return new RegisterView();
+    }
+    if (chosen_option == "q") {
+      return nullptr;
     }
 
-    this->error_message_ =
+    this->message_ =
         "ERROR: \"" + original_choice + "\" is not a valid menu choice.";
   }
 
-  std::cout << "Would send to view for " << chosen_option << std::endl;
+  if (chosen_option == "l") {
+    std::cout << "Would send to login view" << std::endl;
+    return nullptr;
+  }
+  if (chosen_option == "r") {
+    return new RegisterView();
+  }
+  if (chosen_option == "q") {
+    return nullptr;
+  }
+
+  throw std::runtime_error(
+      "Reached end of MainMenuView::Display -- this shouldn't happen");
 }
 }  // namespace shoutout
 }  // namespace mjohnson
