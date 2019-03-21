@@ -1,0 +1,46 @@
+[
+ {
+  "directory": "/Users/michael/Projects/ShoutOut.com",
+  "arguments": [
+   "c++",
+   "-std=c++11",
+   "-Wall",
+   "-Wextra",
+   "-Wc++11-compat",
+   "-Werror",
+   "-pedantic-errors",
+   "-ffast-math",
+   "-ftrapv",
+   "-I.",
+   "-glldb",
+   "-O0",
+   "-c",
+   "shoutout/main.cc",
+   "-o",
+   "build/main.o"
+  ],
+  "file": "shoutout/main.cc"
+ },
+ {
+  "directory": "/Users/michael/Projects/ShoutOut.com",
+  "arguments": [
+   "c++",
+   "-std=c++11",
+   "-Wall",
+   "-Wextra",
+   "-Wc++11-compat",
+   "-Werror",
+   "-pedantic-errors",
+   "-ffast-math",
+   "-ftrapv",
+   "-I.",
+   "-glldb",
+   "-O0",
+   "-c",
+   "shoutout/screen.cc",
+   "-o",
+   "build/screen.o"
+  ],
+  "file": "shoutout/screen.cc"
+ }
+]
