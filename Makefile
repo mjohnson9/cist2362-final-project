@@ -10,10 +10,12 @@ TESTS := $(shell find "$(SOURCE_DIR)" -iname '*_test.cc' | sort)
 TESTS_RUN := $(TESTS:%=%.run)
 TIDYS := $(SRCS:%=%.tidy)
 LINTS := $(SRCS:%=%.lint)
+IWYUS := $(SRCS:%=%.iwyu)
 
 MKDIR_P ?= mkdir -p
 CPPLINT ?= cpplint
 CLANG_TIDY ?= clang-tidy
+IWYU ?= include-what-you-use
 
 DEBUG ?= 1
 
@@ -29,7 +31,7 @@ TIDYFLAGS := $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH)
 TIDYFLAGS := $(TIDYFLAGS:%=-extra-arg="%")
 
 
-.PHONY: all tidy lint test docs clean
+.PHONY: all tidy lint iwyu style test docs clean
 
 all: $(BUILD_DIR)/ShoutOut
 
@@ -53,9 +55,16 @@ $(SOURCE_DIR)/%.tidy: $(SOURCE_DIR)/%
 $(SOURCE_DIR)/%.lint: $(SOURCE_DIR)/%
 	"$(CPPLINT)" --filter=-readability/nolint "$(@:%.lint=%)"
 
+$(SOURCE_DIR)/%.iwyu: $(SOURCE_DIR)/%
+	-"$(IWYU)" -Xiwyu --check_also="$(SOURCE_DIR)/**" -isystem /usr/include -isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -isystem /opt/local/include $(CPPFLAGS) "$(@:%.iwyu=%)"
+
 tidy: $(TIDYS)
 
 lint: $(LINTS)
+
+iwyu: $(IWYUS)
+
+style: tidy lint iwyu
 
 test: $(TESTS_RUN)
 	@echo "Tests passed"
