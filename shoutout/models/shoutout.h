@@ -10,8 +10,7 @@
 namespace mjohnson {
 namespace shoutout {
 /**
- * Provides the main menu. The main menu allows a user to register or login. It
- * can also display an error message from another view.
+ * Provides core data storage and persistence capabilities.
  */
 class ShoutOut {
  private:
@@ -20,10 +19,21 @@ class ShoutOut {
    */
   static ShoutOut* global_shoutout_;
 
+  /**
+   * The list of all users.
+   */
   std::vector<User*>* users_;
 
+  /**
+   * The top level data directory.
+   */
   const std::string data_directory_;
 
+  /**
+   * Retrieves a list of user directories from the filesystem.
+   *
+   * @return A list of user directories, without the data_directory_ prefix.
+   */
   std::vector<std::string> GetUserDirs();
   void PrepareDirectories();
   void WriteUserToDisk(User* user);
@@ -69,7 +79,7 @@ class ShoutOut {
 
   void WriteToDisk();
 
-  std::vector<User*>* Users();
+  std::vector<User*>* Users() { return this->users_; }
 
   /**
    * Retrieves a specific user by their user ID.

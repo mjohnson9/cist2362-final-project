@@ -4,7 +4,7 @@
 
 namespace mjohnson {
 namespace shoutout {
-bool ShoutTimeCompare(Shout* shout1, Shout* shout2) {
+bool Shout::TimeCompare(Shout* shout1, Shout* shout2) {
   return shout1->Time() < shout2->Time();
 }
 }  // namespace shoutout

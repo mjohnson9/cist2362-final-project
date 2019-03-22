@@ -36,7 +36,7 @@ View* HomeView::Display() {
       }
     }
 
-    std::sort(shouts.begin(), shouts.end(), ShoutTimeCompare);
+    std::sort(shouts.begin(), shouts.end(), Shout::TimeCompare);
 
     for (Shout* shout : shouts) {
       const time_t shout_time =
