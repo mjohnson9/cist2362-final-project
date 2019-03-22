@@ -17,6 +17,7 @@ class PrivateShoutsView : public View {
 
   void DisplayConstructShout();
   void DisplayDelete();
+  void DisplayReShout();
 
  public:
   explicit PrivateShoutsView(User* user)
