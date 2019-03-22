@@ -9,10 +9,6 @@
 namespace mjohnson {
 namespace shoutout {
 class LoginView : public View {
- private:
-  static bool ValidateUsername(const std::string& username);
-  static bool ValidatePassword(const std::string& password);
-
  public:
   LoginView() = default;
 

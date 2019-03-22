@@ -38,12 +38,15 @@ View* RegisterView::Display() {
       this->password_mismatch_ = false;
     }
 
+    const auto password_validator = std::bind(
+        mjohnson::common::ValidateStringNotEmpty,
+        "\nERROR: Your password cannot be blank.\n\n", std::placeholders::_1);
+
     auto first_password = mjohnson::common::RequestInput<std::string>(
-        "What would you like your password to be? ",
-        RegisterView::ValidatePassword);
+        "What would you like your password to be? ", password_validator);
 
     auto second_password = mjohnson::common::RequestInput<std::string>(
-        "Please reenter your password: ", nullptr);
+        "Please reenter your password: ", password_validator);
 
     if (first_password == second_password) {
       User* new_user = new User(this->username_, first_password);
@@ -54,7 +57,8 @@ View* RegisterView::Display() {
     this->password_mismatch_ = true;
   }
 
-  return nullptr;
+  throw std::runtime_error(
+      "Reached end of RegisterView::Display -- this shouldn't happen");
 }
 
 bool RegisterView::ValidateUsername(const std::string& username) {
@@ -72,20 +76,6 @@ bool RegisterView::ValidateUsername(const std::string& username) {
   if (ShoutOut::Get()->GetUserById(user_id) != nullptr) {
     std::cout << std::endl
               << "ERROR: A user with that name already exists." << std::endl
-              << std::endl;
-
-    return false;
-  }
-
-  return true;
-}
-
-bool RegisterView::ValidatePassword(const std::string& password) {
-  std::string password_copy(password);
-  mjohnson::common::TrimString(&password_copy);
-  if (password_copy.empty()) {
-    std::cout << std::endl
-              << "ERROR: Your password cannot be blank." << std::endl
               << std::endl;
 
     return false;

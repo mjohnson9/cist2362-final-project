@@ -10,6 +10,8 @@
 #include "shoutout/screen.h"
 #include "shoutout/views/finduser.h"
 #include "shoutout/views/mainmenu.h"
+#include "shoutout/views/privateshouts.h"
+#include "shoutout/views/profile.h"
 #include "shoutout/views/shout.h"
 
 namespace mjohnson {
@@ -39,12 +41,9 @@ View* HomeView::Display() {
     std::sort(shouts.begin(), shouts.end(), Shout::TimeCompare);
 
     for (Shout* shout : shouts) {
-      const time_t shout_time =
-          std::chrono::system_clock::to_time_t(shout->Time());
-
       std::cout << "> " << shout->Owner()->Username() << ": "
-                << shout->Content() << " - " << std::ctime(&shout_time)
-                << std::endl;
+                << shout->Content() << " - "
+                << mjohnson::common::FriendlyTime(shout->Time()) << std::endl;
     }
     std::cout << std::endl;
 
@@ -52,7 +51,8 @@ View* HomeView::Display() {
       std::cout << this->message_ << std::endl;
     }
 
-    std::cout << "[S]hout | [P]rivate Shouts | [F]ind other users | [E]xit"
+    std::cout << "[S]hout | P[r]ivate Shouts | [F]ind other users | [P]rofile "
+                 "| [E]xit"
               << std::endl;
 
     std::string chosen_option =
@@ -66,12 +66,14 @@ View* HomeView::Display() {
     if (chosen_option == "s") {
       return new ShoutView(this->user_);
     }
-    if (chosen_option == "p") {
-      std::cout << "Would take to private shouts view" << std::endl;
-      continue;
+    if (chosen_option == "r") {
+      return new PrivateShoutsView(this->user_);
     }
     if (chosen_option == "f") {
       return new FindUserView(this->user_);
+    }
+    if (chosen_option == "p") {
+      return new ProfileView(this->user_, this->user_);
     }
     if (chosen_option == "e") {
       return new MainMenuView();

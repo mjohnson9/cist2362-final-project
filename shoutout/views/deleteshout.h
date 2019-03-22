@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include <stdexcept>
 #include <string>
 
 #include "shoutout/models/user.h"
@@ -10,12 +9,15 @@
 
 namespace mjohnson {
 namespace shoutout {
-class FindUserView : public View {
+/**
+ * Provides a screen for user registration. This allows a user to
+ */
+class DeleteShoutView : public View {
  private:
   User* user_;
 
  public:
-  explicit FindUserView(User* user) : user_(user) {
+  explicit DeleteShoutView(User* user) : user_(user) {
     if (user == nullptr) {
       throw std::invalid_argument("user cannot be null");
     }

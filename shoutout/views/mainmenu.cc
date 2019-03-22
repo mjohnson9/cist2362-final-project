@@ -27,6 +27,7 @@ View* MainMenuView::Display() {
     std::cout << "========== SHOUTOUT.COM ==========" << std::endl;
     if (!this->message_.empty()) {
       std::cout << this->message_ << std::endl << std::endl;
+      this->message_ = "";
     }
     std::cout << "Please choose an option:" << std::endl
               << "[l] Login" << std::endl
@@ -42,6 +43,9 @@ View* MainMenuView::Display() {
     mjohnson::common::LowerString(
         &chosen_option);  // Convert the string to lowercase for easy comparison
 
+    if (chosen_option.empty()) {
+      continue;
+    }
     if (chosen_option == "l") {
       return new LoginView();
     }

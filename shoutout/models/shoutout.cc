@@ -160,6 +160,67 @@ void ShoutOut::LoadFromDisk() {
 
       shouts_file.close();
     }
+
+    {
+      std::ifstream private_shouts_file =
+          this->OpenUserFileRead(user_id, "private-shouts.txt");
+
+      while (!private_shouts_file.eof()) {
+        if (private_shouts_file.fail()) {
+          private_shouts_file.close();
+          throw DataCorruptedException(
+              "Failed to read " + user->UserId() +
+              "'s private shouts file: " + std::string(strerror(errno)));
+        }
+
+        std::string line;
+        std::getline(private_shouts_file, line);
+        if (line.empty()) {
+          // We read a blank line; ignore it
+          continue;
+        }
+
+        std::stringstream linestream(line);
+
+        uint64_t seconds_since_epoch_int;
+        linestream >> seconds_since_epoch_int;
+
+        std::string from;
+        linestream >> from;
+
+        std::string to;
+        linestream >> to;
+
+        std::string content;
+        std::getline(linestream, content);
+        mjohnson::common::TrimString(&content);
+
+        std::chrono::seconds seconds_since_epoch(seconds_since_epoch_int);
+        std::chrono::system_clock::time_point shout_time(seconds_since_epoch);
+
+        User* shout_from = this->GetUserById(from);
+        if (shout_from == nullptr) {
+          private_shouts_file.close();
+          throw DataCorruptedException(
+              user->UserId() + " has a private shout from nonexistant user " +
+              from);
+        }
+
+        User* shout_to = this->GetUserById(to);
+        if (shout_to == nullptr) {
+          private_shouts_file.close();
+          throw DataCorruptedException(
+              user->UserId() + " has a private shout to nonexistant user " +
+              to);
+        }
+
+        PrivateShout* new_shout =
+            new PrivateShout(shout_from, shout_to, content, shout_time);
+        user->AddPrivateShout(new_shout);
+      }
+
+      private_shouts_file.close();
+    }
   }
 }
 
@@ -238,7 +299,7 @@ void ShoutOut::WriteUserToDisk(User* user) {
               shout->Time().time_since_epoch());
       uint64_t seconds_since_epoch = duration_since_epoch.count();
 
-      if (!(shouts_file << seconds_since_epoch << shout->Content()
+      if (!(shouts_file << seconds_since_epoch << " " << shout->Content()
                         << std::endl)) {
         shouts_file.close();
         throw DataCorruptedException(
@@ -248,6 +309,29 @@ void ShoutOut::WriteUserToDisk(User* user) {
     }
 
     shouts_file.close();
+  }
+
+  {
+    std::ofstream private_shouts_file =
+        this->OpenUserFileWrite(user_id, "private-shouts.txt");
+
+    for (PrivateShout* shout : *user->PrivateShouts()) {
+      auto duration_since_epoch =
+          std::chrono::duration_cast<std::chrono::seconds>(
+              shout->Time().time_since_epoch());
+      uint64_t seconds_since_epoch = duration_since_epoch.count();
+
+      if (!(private_shouts_file
+            << seconds_since_epoch << " " << shout->From()->UserId() << " "
+            << shout->To()->UserId() << " " << shout->Content() << std::endl)) {
+        private_shouts_file.close();
+        throw DataCorruptedException(
+            "Failed to write to " + user_id +
+            "'s private shouts file: " + std::string(strerror(errno)));
+      }
+    }
+
+    private_shouts_file.close();
   }
 }
 

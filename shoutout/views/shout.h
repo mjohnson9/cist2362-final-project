@@ -16,8 +16,6 @@ class ShoutView : public View {
  private:
   User* user_;
 
-  static bool ValidateShout(const std::string& shout);
-
  public:
   explicit ShoutView(User* user) : user_(user) {
     if (user == nullptr) {

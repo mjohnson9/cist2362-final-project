@@ -18,7 +18,6 @@ class RegisterView : public View {
   bool password_mismatch_ = false;
 
   static bool ValidateUsername(const std::string& username);
-  static bool ValidatePassword(const std::string& password);
 
  public:
   RegisterView() : username_("") {}

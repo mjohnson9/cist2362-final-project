@@ -2,14 +2,19 @@
 
 #pragma once
 
+#include <algorithm>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "shoutout/models/privateshout.h"
 #include "shoutout/models/shout.h"
 
 namespace mjohnson {
 namespace shoutout {
+// Forward declaration so that we can have the circular dependency
+class PrivateShout;
+
 /**
  * Represents a user.
  */
@@ -22,6 +27,7 @@ class User {
   std::vector<User*>* followers_;
 
   std::vector<Shout*>* shouts_;
+  std::vector<PrivateShout*>* private_shouts_;
 
   void Initialize();
 
@@ -50,13 +56,27 @@ class User {
   std::string UserId() const { return User::CreateUserId(this->username_); }
 
   std::vector<User*>* Following() const { return this->following_; }
-  void AddFollowing(User* user);
+  void AddFollowing(User* user) { this->following_->push_back(user); }
+  bool RemoveFollowing(User* user);
 
   std::vector<User*>* Followers() const { return this->followers_; }
-  void AddFollower(User* user);
+  void AddFollower(User* user) { this->followers_->push_back(user); }
+  bool RemoveFollower(User* user);
 
   std::vector<Shout*>* Shouts() const { return this->shouts_; }
-  void AddShout(Shout* shout) { this->shouts_->push_back(shout); }
+  void AddShout(Shout* shout) {
+    this->shouts_->push_back(shout);
+    std::sort(this->shouts_->begin(), this->shouts_->end(), Shout::TimeCompare);
+  }
+  bool RemoveShout(Shout* shout);
+
+  std::vector<PrivateShout*>* PrivateShouts() const {
+    return this->private_shouts_;
+  }
+  void AddPrivateShout(PrivateShout* shout) {
+    this->private_shouts_->push_back(shout);
+  }
+  bool RemovePrivateShout(PrivateShout* shout);
 };
 }  // namespace shoutout
 }  // namespace mjohnson

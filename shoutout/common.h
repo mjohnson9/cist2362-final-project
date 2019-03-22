@@ -91,7 +91,10 @@ std::string RequestInput<std::string>(
     const std::string& prompt,
     const std::function<bool(std::string)>& validator);
 
-// TrimString trims the whitespace from both ends of the string
+bool ValidateStringNotEmpty(const std::string& message, const std::string& str);
+
+bool IsDigits(const std::string& str);
+
 /**
  * Trims the whitespace from the left and right sides of the provided string.
  * @param str A pointer to the string to trim.
@@ -103,5 +106,7 @@ void TrimString(std::string* str);
  * @param str A pointer to the string to convert to lowercase.
  */
 void LowerString(std::string* str);
+
+std::string FriendlyTime(std::chrono::system_clock::time_point time);
 }  // namespace common
 }  // namespace mjohnson
