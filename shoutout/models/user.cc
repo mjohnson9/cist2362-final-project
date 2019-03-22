@@ -1,6 +1,7 @@
 // Copyright 2019 Michael Johnson
 
 #include "shoutout/models/user.h"
+#include "shoutout/models/shout.h"
 
 #include "shoutout/common.h"
 
@@ -24,6 +25,7 @@ User::User(std::string username, std::string password)
 void User::Initialize() {
   this->following_ = new std::vector<User*>();
   this->followers_ = new std::vector<User*>();
+  this->shouts_ = new std::vector<Shout*>();
 }
 
 void User::AddFollower(User* user) { this->followers_->push_back(user); }

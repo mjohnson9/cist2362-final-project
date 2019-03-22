@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <stdexcept>
 #include <string>
 
 #include "shoutout/models/user.h"
@@ -9,14 +10,18 @@
 
 namespace mjohnson {
 namespace shoutout {
-class HomeView : public View {
+class FindUserView : public View {
  private:
   User* user_;
 
-  std::string message_;
+  static bool ValidateSearch(const std::string& search);
 
  public:
-  explicit HomeView(User* user) : user_(user), message_("") {}
+  explicit FindUserView(User* user) : user_(user) {
+    if (user == nullptr) {
+      throw std::invalid_argument("user cannot be null");
+    }
+  }
 
   View* Display() override;
 };

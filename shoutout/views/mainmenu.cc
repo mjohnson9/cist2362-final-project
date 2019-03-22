@@ -8,6 +8,7 @@
 
 #include "shoutout/common.h"
 #include "shoutout/screen.h"
+#include "shoutout/views/login.h"
 #include "shoutout/views/register.h"
 
 namespace mjohnson {
@@ -20,7 +21,6 @@ MainMenuView::MainMenuView(std::string message)
 View* MainMenuView::Display() {
   Screen* screen = Screen::Get();
 
-  std::string chosen_option;
   while (true) {  // Make an infinite loop; we'll break out when
                   // we're ready to continue
     screen->Clear();
@@ -34,7 +34,8 @@ View* MainMenuView::Display() {
               << "[q] Quit" << std::endl
               << std::endl;
 
-    chosen_option = mjohnson::common::RequestInput<std::string>("", nullptr);
+    std::string chosen_option =
+        mjohnson::common::RequestInput<std::string>("", nullptr);
     std::string original_choice(
         chosen_option);  // Copy the string before we modify it
     mjohnson::common::TrimString(&chosen_option);  // Trim the whitespace
@@ -42,9 +43,7 @@ View* MainMenuView::Display() {
         &chosen_option);  // Convert the string to lowercase for easy comparison
 
     if (chosen_option == "l") {
-      // TODO(michael): Login view
-      std::cout << "TODO(Login view)" << std::endl;
-      return nullptr;
+      return new LoginView();
     }
     if (chosen_option == "r") {
       return new RegisterView();
@@ -55,17 +54,6 @@ View* MainMenuView::Display() {
 
     this->message_ =
         "ERROR: \"" + original_choice + "\" is not a valid menu choice.";
-  }
-
-  if (chosen_option == "l") {
-    std::cout << "Would send to login view" << std::endl;
-    return nullptr;
-  }
-  if (chosen_option == "r") {
-    return new RegisterView();
-  }
-  if (chosen_option == "q") {
-    return nullptr;
   }
 
   throw std::runtime_error(

@@ -1,0 +1,9 @@
+-std=c++11
+-Wall
+-Wextra
+-Wc++11-compat
+-Werror
+-pedantic-errors
+-ffast-math
+-ftrapv
+-I/Users/michael/Projects/ShoutOut.com

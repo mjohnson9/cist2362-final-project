@@ -6,7 +6,7 @@
 #include "shoutout/models/shoutout.h"
 #include "shoutout/models/user.h"
 #include "shoutout/screen.h"
-#include "shoutout/views/mainmenu.h"
+#include "shoutout/views/home.h"
 
 namespace mjohnson {
 namespace shoutout {
@@ -23,7 +23,8 @@ View* RegisterView::Display() {
 
     if (this->username_.empty()) {
       auto username = mjohnson::common::RequestInput<std::string>(
-          "What would you like your username to be? ", ValidateUsername);
+          "What would you like your username to be? ",
+          RegisterView::ValidateUsername);
       this->username_ = username;
       std::cout << std::endl;
     } else {
@@ -38,7 +39,8 @@ View* RegisterView::Display() {
     }
 
     auto first_password = mjohnson::common::RequestInput<std::string>(
-        "What would you like your password to be? ", ValidatePassword);
+        "What would you like your password to be? ",
+        RegisterView::ValidatePassword);
 
     auto second_password = mjohnson::common::RequestInput<std::string>(
         "Please reenter your password: ", nullptr);
@@ -46,7 +48,7 @@ View* RegisterView::Display() {
     if (first_password == second_password) {
       User* new_user = new User(this->username_, first_password);
       ShoutOut::Get()->AddUser(new_user);
-      return new MainMenuView();
+      return new HomeView(new_user);
     }
 
     this->password_mismatch_ = true;
@@ -55,7 +57,7 @@ View* RegisterView::Display() {
   return nullptr;
 }
 
-bool ValidateUsername(const std::string& username) {
+bool RegisterView::ValidateUsername(const std::string& username) {
   std::string username_copy(username);
   mjohnson::common::TrimString(&username_copy);
   if (username_copy.empty()) {
@@ -67,7 +69,7 @@ bool ValidateUsername(const std::string& username) {
   }
 
   const std::string user_id = User::CreateUserId(username_copy);
-  if (ShoutOut::Get()->GetUser(user_id) != nullptr) {
+  if (ShoutOut::Get()->GetUserById(user_id) != nullptr) {
     std::cout << std::endl
               << "ERROR: A user with that name already exists." << std::endl
               << std::endl;
@@ -78,7 +80,7 @@ bool ValidateUsername(const std::string& username) {
   return true;
 }
 
-bool ValidatePassword(const std::string& password) {
+bool RegisterView::ValidatePassword(const std::string& password) {
   std::string password_copy(password);
   mjohnson::common::TrimString(&password_copy);
   if (password_copy.empty()) {

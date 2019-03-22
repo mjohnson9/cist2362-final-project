@@ -4,19 +4,17 @@
 
 #include <string>
 
-#include "shoutout/models/user.h"
 #include "shoutout/views/view.h"
 
 namespace mjohnson {
 namespace shoutout {
-class HomeView : public View {
+class LoginView : public View {
  private:
-  User* user_;
-
-  std::string message_;
+  static bool ValidateUsername(const std::string& username);
+  static bool ValidatePassword(const std::string& password);
 
  public:
-  explicit HomeView(User* user) : user_(user), message_("") {}
+  LoginView() = default;
 
   View* Display() override;
 };

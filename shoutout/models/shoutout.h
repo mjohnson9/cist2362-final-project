@@ -24,10 +24,17 @@ class ShoutOut {
 
   const std::string data_directory_;
 
-  void ClearDisk();
+  std::vector<std::string> GetUserDirs();
+  void PrepareDirectories();
+  void WriteUserToDisk(User* user);
+
+  std::string GetUserPath(const std::string& user_id);
 
   std::ifstream OpenUserFileRead(const std::string& user_id,
                                  const std::string& filename);
+
+  std::ofstream OpenUserFileWrite(const std::string& user_id,
+                                  const std::string& filename);
 
  public:
   /**
@@ -60,15 +67,25 @@ class ShoutOut {
    */
   void LoadFromDisk();
 
+  void WriteToDisk();
+
   std::vector<User*>* Users();
 
   /**
-   * Retrieves a specific user by their username.
+   * Retrieves a specific user by their user ID.
    * @param  user_id The user ID to search for.
+   * @return         The User corresponding to the given user ID or nullptr if
+   *                 no such user was found.
+   */
+  User* GetUserById(const std::string& user_id);
+
+  /**
+   * Retrieves a specific user by their username.
+   * @param  user_id The username to search for.
    * @return         The User corresponding to the given username or nullptr if
    *                 no such user was found.
    */
-  User* GetUser(const std::string& user_id);
+  User* GetUserByName(const std::string& username);
 
   /**
    * Adds a new User to the ShoutOut instance.

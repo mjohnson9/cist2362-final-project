@@ -169,6 +169,28 @@
    "-glldb",
    "-O0",
    "-c",
+   "shoutout/views/login.cc",
+   "-o",
+   "build/views/login.o"
+  ],
+  "file": "shoutout/views/login.cc"
+ },
+ {
+  "directory": "/Users/michael/Projects/ShoutOut.com",
+  "arguments": [
+   "c++",
+   "-std=c++11",
+   "-Wall",
+   "-Wextra",
+   "-Wc++11-compat",
+   "-Werror",
+   "-pedantic-errors",
+   "-ffast-math",
+   "-ftrapv",
+   "-I.",
+   "-glldb",
+   "-O0",
+   "-c",
    "shoutout/views/mainmenu.cc",
    "-o",
    "build/views/mainmenu.o"
@@ -196,5 +218,27 @@
    "build/views/register.o"
   ],
   "file": "shoutout/views/register.cc"
+ },
+ {
+  "directory": "/Users/michael/Projects/ShoutOut.com",
+  "arguments": [
+   "c++",
+   "-std=c++11",
+   "-Wall",
+   "-Wextra",
+   "-Wc++11-compat",
+   "-Werror",
+   "-pedantic-errors",
+   "-ffast-math",
+   "-ftrapv",
+   "-I.",
+   "-glldb",
+   "-O0",
+   "-c",
+   "shoutout/views/shout.cc",
+   "-o",
+   "build/views/shout.o"
+  ],
+  "file": "shoutout/views/shout.cc"
  }
 ]

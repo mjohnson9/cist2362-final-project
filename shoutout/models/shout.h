@@ -46,8 +46,8 @@ class Shout {
   std::chrono::system_clock::time_point Time() const {
     return this->posted_time_;
   }
-};
 
-bool ShoutTimeCompare(Shout* shout1, Shout* shout2);
+  static bool TimeCompare(Shout* shout1, Shout* shout2);
+};
 }  // namespace shoutout
 }  // namespace mjohnson

@@ -27,6 +27,9 @@ class User {
 
  public:
   static std::string CreateUserId(const std::string& username);
+  static bool UsernameCompare(User* user1, User* user2) {
+    return user1->Username() < user2->Username();
+  }
 
   explicit User(std::string username);
   User(std::string username, std::string password);
@@ -36,6 +39,8 @@ class User {
    * @return The username.
    */
   std::string Username() const { return this->username_; }
+
+  std::string Password() const { return this->password_; }
 
   /**
    * Builds the user ID. The user ID is the username in all lowercase with
