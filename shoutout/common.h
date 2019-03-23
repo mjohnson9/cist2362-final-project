@@ -11,6 +11,10 @@
 
 namespace mjohnson {
 namespace common {
+/**
+ * A list of characters forbidden from being used in filesystem object names.
+ * This is used to create filesystem-friendly user IDs.
+ */
 const std::vector<char> kFilesystemForbiddenCharacters =
     []() -> std::vector<char> {
   std::string temporaryForbiddenCharacters = "/?<>\\:*|\"^";
@@ -107,6 +111,11 @@ void TrimString(std::string* str);
  */
 void LowerString(std::string* str);
 
+/**
+ * Creates a friendly time string for a given system clock time point.
+ * @param  time The time point to create a time string for.
+ * @return      The friendly time string.
+ */
 std::string FriendlyTime(std::chrono::system_clock::time_point time);
 }  // namespace common
 }  // namespace mjohnson

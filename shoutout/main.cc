@@ -8,10 +8,20 @@
 #include "shoutout/screen.h"
 #include "shoutout/views/mainmenu.h"
 
+/**
+ * Prints the program usage to stderr.
+ * @param program The program name from argv[0].
+ */
 void usage(char* program) {
   std::cerr << "Usage: " << program << " [data directory]" << std::endl;
 }
 
+/**
+ * The entrypoint for the program.
+ * @param  argc The number of command line arguments.
+ * @param  argv An array of C-strings of the command line arguments.
+ * @return      The exit code.
+ */
 int main(int argc, char* argv[]) {
   if (argc > 2) {
     usage(argv[0]);

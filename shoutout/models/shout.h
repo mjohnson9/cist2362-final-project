@@ -12,8 +12,7 @@ namespace shoutout {
 class User;  // Forward declaration of User because of circular dependency
 
 /**
- * Provides the main menu. The main menu allows a user to register or login. It
- * can also display an error message from another view.
+ * Provides a model of a single shout.
  */
 class Shout {
  private:
