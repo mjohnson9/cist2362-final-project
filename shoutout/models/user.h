@@ -16,7 +16,7 @@ namespace shoutout {
 class PrivateShout;
 
 /**
- * Represents a user.
+ * A model to represent an individual user.
  */
 class User {
  private:

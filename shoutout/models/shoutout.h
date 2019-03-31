@@ -35,14 +35,38 @@ class ShoutOut {
    * @return A list of user directories, without the data_directory_ prefix.
    */
   std::vector<std::string> GetUserDirs();
+  /**
+   * Prepares the data directories by creating directories for new users.
+   */
   void PrepareDirectories();
+  /**
+   * Writes a particular user's data to disk.
+   * @param user The user whose data should be written to disk.
+   */
   void WriteUserToDisk(User* user);
 
+  /**
+   * Gets the data directory path for a particular User.
+   * @param  user_id The User's ID.
+   * @return The path to the user's data directory.
+   */
   std::string GetUserPath(const std::string& user_id);
 
+  /**
+   * Opens a user data file for reading.
+   * @param user_id The User's ID.
+   * @param filename The name of the file inside the User's data directory.
+   * @return An ifstream pointing to the opened file.
+   */
   std::ifstream OpenUserFileRead(const std::string& user_id,
                                  const std::string& filename);
 
+  /**
+   * Opens a user data file for writing.
+   * @param user_id The User's ID.
+   * @param filename The name of the file inside the User's data directory.
+   * @return An ofstream pointing to the opened file.
+   */
   std::ofstream OpenUserFileWrite(const std::string& user_id,
                                   const std::string& filename);
 
@@ -62,6 +86,10 @@ class ShoutOut {
    */
   static ShoutOut* CreateGlobalShoutOut(const std::string& data_directory);
 
+  /**
+   * Constructs the ShoutOut data manager using a specified data directory.
+   * @param data_directory The directory in which to store User data.
+   */
   explicit ShoutOut(std::string data_directory);
 
   /**
@@ -77,35 +105,50 @@ class ShoutOut {
    */
   void LoadFromDisk();
 
+  /**
+   * Writes all User data to disk.
+   */
   void WriteToDisk();
 
+  /**
+   * Retrieves the list of Users.
+   * @return All Users in the ShoutOut system.
+   */
   std::vector<User*>* Users() { return this->users_; }
 
   /**
    * Retrieves a specific user by their user ID.
-   * @param  user_id The user ID to search for.
-   * @return         The User corresponding to the given user ID or nullptr if
-   *                 no such user was found.
+   * @param user_id The user ID to search for.
+   * @return The User corresponding to the given user ID or nullptr if no such
+   * user was found.
    */
   User* GetUserById(const std::string& user_id);
 
   /**
    * Retrieves a specific user by their username.
-   * @param  user_id The username to search for.
-   * @return         The User corresponding to the given username or nullptr if
-   *                 no such user was found.
+   * @param username The username to search for.
+   * @return The User corresponding to the given username or nullptr if no such
+   * user was found.
    */
   User* GetUserByName(const std::string& username);
 
   /**
    * Adds a new User to the ShoutOut instance.
-   * @param user
+   * @param user The User to be added.
    */
   void AddUser(User* user);
 };
 
+/**
+ * An exception thrown when ShoutOut::CreateGlobalShoutOut is called, but has
+ * already been called before.
+ */
 class GlobalShoutOutExistsException : public std::logic_error {
  public:
+  /**
+   * A constructor that constructs the GlobalShoutOutExistsException with a
+   * message of "A global ShoutOut instance already exists".
+   */
   GlobalShoutOutExistsException()
       : std::logic_error("A global ShoutOut instance already exists") {}
 };
