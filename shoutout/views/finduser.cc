@@ -15,8 +15,6 @@
 
 namespace mjohnson {
 namespace shoutout {
-bool IsDigits(const std::string& str);
-
 View* FindUserView::Display() {
   Screen* screen = Screen::Get();
   ShoutOut* db = ShoutOut::Get();
